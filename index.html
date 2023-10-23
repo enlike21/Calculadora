@@ -14,7 +14,7 @@
         <h1 class="sombra">CALCULADORA</h1>
         <form onsubmit="event.preventDefault();">
             <fieldset class="sombra">
-                <legend>Finn El Humano CALCULATOR</legend>
+                <legend>Finn El Humano CALCULADORA</legend>
                 <div class="entradas">
                     <input class="pantalla" type="text" id="pantalla" readonly>
                     <button name="numero" value="1" onclick="marca(this.value)">1</button>
@@ -56,24 +56,32 @@
     }
 
     function realizarOperacion(op) {
-    let pantalla = document.getElementById('pantalla');
-    let expresion = pantalla.value;
+        let pantalla = document.getElementById('pantalla');
+        let expresion = pantalla.value;
 
-    if (op === '=') {
-        resultado = evaluarExpresion(expresion);
-        pantalla.value = resultado;
-    } else {
-        pantalla.value += op;
+        if (op === '=') {
+            resultado = evaluarExpresion(expresion);
+            if (resultado === 'Error') {
+                pantalla.value = 'Error: División por cero';
+            } else {
+                pantalla.value = resultado;
+            }
+        } else {
+            pantalla.value += op;
+        }
     }
-}
 
-function evaluarExpresion(expresion) {
-    try {
-        return eval(expresion);
-    } catch (error) {
-        console.log('Error en la expresión:', error);
-        return 'Error';
+    function evaluarExpresion(expresion) {
+        try {
+            // Verificar si la expresión contiene una división por cero
+            if (expresion.indexOf('/0') !== -1) {
+                return 'Error';
+            }
+            return eval(expresion);
+        } catch (error) {
+            console.log('Error en la expresión:', error);
+            return 'Error';
+        }
     }
-}
 </script>
 </html>
